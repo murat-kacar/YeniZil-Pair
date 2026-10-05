@@ -1,7 +1,7 @@
 # YeniZil-Pair — rules for working on this repo
 
 Wireless doorbell + door opener for a 4-flat building, pairing-based edition. ESP32-C3 Super Mini, Arduino core 3.3.12, ESP-NOW flooding, AES-128-CCM.
-Goal: one firmware for every outdoor unit and one for every indoor unit. Network identity, network key and flat number are set up on the devices at pairing, not in the source.
+Goal: a mass-produced product installed in many buildings. One firmware for every outdoor unit and one for every indoor unit. Network identity, network key and flat number are set up on the devices at pairing, not in the source.
 Predecessor: github.com/murat-kacar/YeniZil (config-file edition, local `C:\Users\Victus\Desktop\YeniZil`). Reuse its code where it fits: radio, security, buttons, outputs and event loop are proven there. Class names below refer to that code until it is ported.
 Design decisions and their rationale live in `docs/ARCHITECTURE.md` (numbered "Karar" list = ADR log). This file holds the rules.
 
@@ -177,7 +177,9 @@ arduino-cli upload  -b esp32:esp32:esp32c3 -p <COMx> --input-dir "$env:LOCALAPPD
 
 ## 15. Open design questions (decide with the user before coding)
 
-- Goal: one building, or a product for many buildings?
+Decided: the product is mass-produced for many buildings, so installers, not developers, set it up. Pairing must work without a computer or source edits.
+
+
 - Pairing UX: which buttons start the window, how long it lasts, what the LEDs show.
 - Flat number assignment at pairing (e.g. pressing flat N's outdoor button while the indoor unit is in pairing mode).
 - Factory reset and re-pairing. Replacing an outdoor unit means a new network ID and key, so all indoor units must re-pair.
