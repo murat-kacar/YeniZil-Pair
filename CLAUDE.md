@@ -175,12 +175,8 @@ arduino-cli upload  -b esp32:esp32:esp32c3 -p <COMx> --input-dir "$env:LOCALAPPD
 - The outdoor unit sends a heartbeat every second. Each heartbeat flashes the indoor link LED for 10 ms, and the indoor unit keeps no link state.
 - Null Object handlers were evaluated and not adopted. `callIfSet` stays.
 
-## 15. Open design questions (decide with the user before coding)
+## 15. Design status
 
-Decided: the product is mass-produced for many buildings, so installers, not developers, set it up. Pairing must work without a computer or source edits.
+Decided pairing design (details in `docs/ARCHITECTURE.md`, Karar 1–8): bench pairing before installation. Outdoor flat button N and the indoor open-door button are held together; at 14–17 s of hold the devices pair (ECDH), and the indoor unit becomes flat N. Pairing is accepted only within the first 10 minutes after the outdoor unit powers up. No extra buttons. Normal presses are 50 ms–10 s, 10–14 s does nothing, holds over 17 s are treated as stuck buttons. Pairing messages use minimum TX power, a strong-RSSI proximity check, and abort when two candidates claim the same flat. Success: the indoor bell rings once and the link LED starts blinking.
 
-
-- Pairing UX: which buttons start the window, how long it lasts, what the LEDs show.
-- Flat number assignment at pairing (e.g. pressing flat N's outdoor button while the indoor unit is in pairing mode).
-- Factory reset and re-pairing. Replacing an outdoor unit means a new network ID and key, so all indoor units must re-pair.
-- Key rotation, and how counters and keys stay consistent across resets.
+Still open (decide with the user before coding): factory reset vs. counter/key consistency, key renewal, flat count per building, flash encryption / secure boot. See `docs/ARCHITECTURE.md` §3.
